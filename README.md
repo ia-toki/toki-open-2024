@@ -40,6 +40,8 @@ Each problem contains the following files and directories:
 - Alternative and subtask solutions (`solutions/`)
 - Attachment (`attachment/`)
 
+The test cases for this competition can be found [here](https://github.com/prabowo02/toki-test-cases/tree/master/toki-open-2024).
+
 ## People
 
 ### Task Authors
