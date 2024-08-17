@@ -1,0 +1,133 @@
+<!-- Title: Tambang Tembaga -->
+
+<p>Lampiran dari soal ini bisa diunduh di <a href="render/copper.zip">sini</a>.</p>
+
+<h3>Deskripsi</h3>
+
+<p>
+  Terdapat sebuah tambang tembaga berbentuk pohon dengan $N$ ruangan, dinomori dari $0$ sampai $N - 1$, dan $N - 1$ rel, dinomori dari $0$ sampai $N - 2$.
+  Rel $i$ ($0 \le i \le N - 2$) menghubungkan ruangan $U[i]$ dan $V[i]$.
+</p><p>
+  Anda mengoperasikan sebuah kereta tambang yang bergerak antarruangan menggunakan rel-rel yang ada.
+  Kereta tambang dioperasikan menggunakan $M$ tombol, dinomori dari $0$ sampai $M - 1$ dari kiri ke kanan.
+  Tombol $j$ ($0 \le j \le M - 1$) akan membawa kereta tambang ke ruangan $A[j]$.
+  Ketika kereta tambang sedang berada di ruangan $u$, Anda bisa menekan tombol yang membawa Anda ke ruangan $v$ jika dan hanya jika $u$ dan $v$ dihubungkan oleh sebuah rel.
+  Kereta tambang bisa menjelajahi seluruh ruangan, artinya untuk suatu ruangan $i$ ($0 \le i \le N - 1$), terdapat satu (atau lebih) tombol yang membawa Anda ke ruangan $i$.
+</p><p>
+  Sebagai operator kereta tambang, terdapat protokol keselematan yang harus Anda taati.
+  Anda harus mengoperasikan kereta tambang menggunakan satu tangan yang selalu memegang tombol.
+  Ketika Anda ingin bergerak, Anda akan memilih sebuah tombol yang bisa Anda tekan, menekannya, lalu tangan Anda tetap memegang tombol yang baru ditekan.
+  <em>Gerakan berisiko</em> adalah ketika Anda menggerakkan tangan Anda ke arah kiri, atau lebih formalnya: anggap tangan Anda sedang memegang tombol $a$ dan Anda memutuskan untuk menekan tombol $b$, maka gerakan tersebut berisiko jika dan hanya jika $b &lt; a$.
+  <em>Total risiko</em> adalah banyaknya gerakan berisiko yang Anda lakukan pada keseluruhan navigasi.
+  Awalnya, kereta tambang berada di ruangan $0$ dan tangan Anda memegang tombol $0$.
+  Anda dijamin bahwa $A[0] = 0$.
+</p><p>
+  Terdapat sederetan ruangan $S$ sepanjang $L$ yang harus Anda kunjungi <strong>dalam urutan tersebut</strong>.
+  Dengan kata lain, Anda harus pertama mengunjungi ruangan $S[0]$, kemudian ruangan $S[1]$, kemudian ruangan $S[2]$, dan seterusnya, dan akhirnya ruangan $S[L - 1]$.
+  Anda juga dijamin bahwa $S[k] \neq S[k + 1]$, untuk semua $0 \le k \le L - 2$.
+</p><p>
+  Anda harus mencari total risiko minimum setelah Anda mengunjungi sederetan ruangan $S$.
+</p>
+
+<h3>Batasan</h3>
+
+<ul>
+  <li> $2 \le N \le 100\,000$</li>
+  <li> $N \le M \le 200\,000$</li>
+  <li> $1 \le L \le 100\,000$</li>
+  <li> $0 \le U[i] < V[i] \le N - 1$ (untuk setiap $0 \le i \le N - 2$)</li>
+  <li> $0 \le A[j] \le N - 1$ (untuk setiap $0 \le j \le M - 1$)</li>
+  <li> $A[0] = 0$ </li>
+  <li> Tiap $i$ ($0 \le i \le N - 1$) muncul setidaknya sekali di $A$</li>
+  <li> $0 \le S[k] \le N - 1$ (untuk setiap $0 \le k \le L - 1$)</li>
+  <li> $S[k] \neq S[k + 1]$ (untuk setiap $0 \le k \le L - 2$)</li>
+  <li> Rel-rel membentuk sebuah pohon. </li>
+</ul>
+
+<h3>Subsoal</h3>
+
+<ol>
+  <li> (9 poin) $M = N$; $U[i] = i$; $V[i] = i + 1$ (untuk setiap $0 \le i \le N - 2$)</li>
+  <li> (18 poin) $M = N$</li>
+  <li> (16 poin) $N, M, L \le 4000$</li>
+  <li> (31 poin) $U[i] = i$; $V[i] = i + 1$ (untuk setiap $0 \le i \le N - 2$)</li>
+  <li> (26 poin) Tidak ada batasan tambahan.</li>
+</ol>
+
+<h3>Detail Implementasi</h3>
+
+Anda harus mengimplementasikan prosedur berikut.
+
+<pre>
+long long min_risk(int N, int M, int L, std::vector&lt;int&gt; U, std::vector&lt;int&gt; V, std::vector&lt;int&gt; A, std::vector&lt;int&gt; S)
+</pre>
+
+<ul>
+  <li> $N$: banyaknya ruangan dalam tambang tembaga. </li>
+  <li> $M$: banyaknya tombol. </li>
+  <li> $L$: panjang deretan ruangan yang dikunjungi. </li>
+  <li> $U$, $V$: <em>array</em> sepanjang $N - 1$ yang mendeskripsikan rel. </li>
+  <li> $A$: <em>array</em> sepanjang $M$ yang mendeskripsikan tombol. </li>
+  <li> $S$: <em>array</em> sepanjang $L$ yang mendeskripsikan deretan ruangan yang dikunjungi. </li>
+  <li> Prosedur ini harus mengembalikan total risiko minimum. </li>
+  <li> Prosedur ini dipanggil tepat sekali untuk setiap kasus uji. </li>
+</ul>
+
+<h3>Contoh</h3>
+
+<h4>Contoh 1</h4>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+min_risk(4, 6, 3, [1, 0, 1], [2, 1, 3], [0, 3, 2, 1, 3, 1], [0, 2, 3])
+</pre>
+
+<p>
+  Tambang tembaganya bisa diilustrasikan sebagai berikut.
+</p><p align="center">
+  <img src="render/sample.png" style="width: 250px" />
+</p><p>
+  Anda bisa menggerakkan kereta tambang sebagai berikut.
+</p><ol>
+  <li>Awalnya, Anda memegang tombol $0$ dan berada di ruangan $0$, sehingga ruangan $S[0]$ telah dikunjungi. </li>
+  <li>Tekan tombol $5$ dan bergerak ke ruangan $1$.</li>
+  <li>Tekan tombol $2$ dan bergerak ke ruangan $2$; Anda mengunjungi $S[1]$; ini adalah gerakan berisiko.</li>
+  <li>Tekan tombol $3$ dan bergerak ke ruangan $1$.</li>
+  <li>Tekan tombol $4$ dan bergerak ke ruangan $3$; Anda mengunjungi ruangan $S[2]$.</li>
+</ol><p>
+  Anda mengunjungi sederetan ruangan tersebut dengan total risiko sebanyak $1$.
+  Tidak terdapat cara lain untuk mengunjungi sederetan ruangan tersebut dengan gerakan berisiko yang lebih sedikit.
+  Oleh karena itu, prosedur harus mengembalikan $1$.
+</p>
+
+<h4>Contoh 2</h4>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+min_risk(5, 9, 2, [0, 1, 2, 3], [1, 2, 3, 4], [0, 2, 4, 1, 3, 1, 4, 2, 0], [4, 2])
+</pre>
+
+<p>
+  Awalnya, Anda memegang tombol $0$, lalu Anda menekan tombol $5$, $1$, $4$, $2$, $4$, $7$ secara berturut-turut.
+  Total risikonya adalah $2$ dan tidak terdapat cara lain untuk mendapatkan gerakan berisiko yang lebih sedikit.
+  Oleh karena itu, prosedur harus mengembalikan $2$.
+</p>
+
+<h3>Contoh <em>Grader</em></h3>
+
+<p>
+  Contoh <em>grader</em> membaca masukan dalam format berikut:
+</p><ul>
+  <li> baris $1$: $N \;\; M \;\; L$ </li>
+  <li> baris $2 + i$ ($0 \le i \le N - 2$): $U[i] \;\; V[i]$ </li>
+  <li> baris $N + 1$: $A[0] \;\; A[1] \;\; \ldots \;\; A[M - 1]$ </li>
+  <li> baris $N + 2$: $S[0] \;\; S[1] \;\; \ldots \;\; S[L - 1]$ </li>
+</ul>
+
+<p>
+  Contoh <em>grader</em> mencetak jawaban Anda dalam format berikut:
+</p><ul>
+  <li> baris $1$: nilai yang dikembalikan <code>min_risk</code>. </li>
+</ul>

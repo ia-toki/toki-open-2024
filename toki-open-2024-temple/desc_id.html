@@ -1,0 +1,113 @@
+<!-- Title: Candi Batu -->
+
+<p>Lampiran dari soal ini bisa diunduh di <a href="render/temple.zip">sini</a>.</p>
+
+<h3>Deskripsi</h3>
+
+<p>
+  Terdapat sebuah candi batu yang terdiri dari $N$ ruangan, dinomori dari $0$ sampai $N - 1$, dan $M$ lorong, dinomori dari $0$ sampai $M - 1$.
+  Menggunakan lorong $i$ ($0 \le i \le M - 1$), Anda bisa berjalan dari ruangan $U[i]$ ke ruangan $V[i]$, dan sebaliknya.
+  Diketahui pula bahwa candi ini terhubung sehingga Anda bisa berjalan dari suatu ruangan ke ruangan lain mana pun dengan menggunakan satu atau lebih lorong.
+  Pintu masuk terletak di ruangan $0$, dan terdapat $K$ pintu keluar yang terletak di ruangan $P[0], P[1], \ldots, P[K - 1]$.
+  Terdapat setidaknya satu pintu keluar dan tidak ada pintu keluar di ruangan $0$.
+</p><p>
+  Terdapat pedagang batu di setiap lorong.
+  Setiap kali Anda melewati lorong $i$ ($0 \le i \le M - 1$), si pedagang batu akan memberikan Anda sebuah batu dengan berat $W[i]$, yang harus Anda terima.
+  Si pedagang akan tetap memberikan Anda sebuah batu walaupun Anda sudah pernah melewati lorongnya.
+</p><p>
+  Setiap kali Anda menerima sebuah batu, Anda akan memasukkannya ke dalam tas Anda.
+  Setiap kali sebuah batu baru dimasukkan ke dalam tas, setiap <strong>batu lain</strong> dengan berat yang <strong>lebih kecil atau sama dengan</strong> batu yang baru akan hilang.
+  Batu yang baru Anda terima tidak akan hilang ketika Anda memasukkannya ke dalam tas.
+</p><p>
+  Anda memasuki candi melalui pintu masuknya, dan ingin keluar melalui pintu keluar mana pun.
+  Anda tidak harus langsung keluar ketika menemukan pintu keluar.
+  Anda bebas untuk berjalan melalui ruangan maupun lorong mana pun sebanyak yang Anda mau.
+  Berapakah jumlah berat batu minimum yang mungkin yang ada di dalam tas Anda setelah Anda keluar?
+</p>
+
+<h3>Batasan</h3>
+
+<ul>
+  <li> $2 \le N \le 100\,000$</li>
+  <li> $N - 1 \le M \le \min\left(200\,000, \frac{N \cdot (N - 1)}{2}\right)$</li>
+  <li> $1 \le K \le N - 1$</li>
+  <li> $0 \le U[i] &lt; V[i] \le N - 1$ (untuk setiap $0 \le i \le M - 1$)</li>
+  <li> $1 \le W[i] \le 10^9$ (untuk setiap $0 \le i \le M - 1$)</li>
+  <li> $1 \le P[i] \le N - 1$ (untuk setiap $0 \le i \le K - 1$)</li>
+  <li> $(U[i], V[i]) \neq (U[j], V[j])$ (untuk setiap $0 \le i &lt; j \le M - 1$)</li>
+  <li> $P[i] \neq P[j]$ (untuk setiap $0 \le i &lt; j \le K - 1$)</li>
+</ul>
+
+<h3>Subsoal</h3>
+
+<ol>
+
+  <li> (6 poin) $N \le 1000$; $M = N - 1$; $U[i] = i$; $V[i] = i + 1$ (untuk setiap $0 \le i \le N - 2$); $K = 1$; $P[0] = N - 1$ </li>
+  <li> (10 poin) $N \le 1000$; $M \le 2000$; terdapat paling banyak $2$ nilai berbeda dalam $W$.</li>
+  <li> (14 poin) $N \le 1000$; $M \le 2000$; terdapat paling banyak $10$ nilai berbeda dalam $W$.</li>
+  <li> (27 poin) $N \le 1000$; $M \le 2000$ </li>
+  <li> (29 poin) $K = 1$; $P[0] = N - 1$ </li>
+  <li> (14 poin) Tidak ada batasan tambahan. </li>
+</ol>
+
+<h3>Detail Implementasi</h3>
+
+Anda harus mengimplementasikan prosedur berikut.
+
+<pre>
+long long min_weight(int N, int M, int K, std::vector&lt;int&gt; U, std::vector&lt;int&gt; V, std::vector&lt;int&gt; W, std::vector&lt;int&gt; P)
+</pre>
+
+<ul>
+  <li> $N$: banyaknya ruangan. </li>
+  <li> $M$: banyaknya lorong. </li>
+  <li> $K$: banyaknya pintu keluar. </li>
+  <li> $U$, $V$: <em>array</em> sepanjang $M$ yang mendeskripsikan lorong. </li>
+  <li> $W$: sebuah <em>array</em> sepanjang $M$ yang mendeskripsikan berat batu yang diberikan. </li>
+  <li> $P$: sebuah <em>array</em> sepanjang $K$ yang mendeskripsikan pintu keluar. </li>
+  <li> Prosedur ini harus mengembalikan berat minimum dari batu setelah Anda keluar. </li>
+  <li> Prosedur ini dipanggil tepat sekali untuk setiap kasus uji. </li>
+</ul>
+
+<h3>Contoh</h3>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+min_weight(7, 8, 2, [0, 1, 2, 3, 3, 0, 1, 3], [1, 2, 5, 5, 4, 4, 3, 6], [6, 1, 1, 3, 3, 4, 5, 2], [5, 6])
+</pre>
+
+<p>
+  Candi batunya dapat diilustrasikan sebagai berikut.
+</p><p align="center">
+  <img src="render/sample.png" style="width: 300px" />
+</p><p>
+  Salah satu strategi Anda berjalan melalui candi ini adalah sebagai berikut.
+</p><ol>
+  <li>Mulai dari pintu masuk di ruangan $0$. Tas awalnya kosong.</li>
+  <li>Berjalan melalui lorong $5$ dan menuju ruangan $4$. Tas sekarang berisi berat $\{4\}$.</li>
+  <li>Berjalan melalui lorong $4$ dan menuju ruangan $3$. Tas sekarang berisi berat $\{3, 4\}$.</li>
+  <li>Berjalan melalui lorong $6$ dan menuju ruangan $1$. Tas sekarang berisi berat $\{5\}$.</li>
+  <li>Berjalan melalui lorong $1$ dan menuju ruangan $2$. Tas sekarang berisi berat $\{1, 5\}$.</li>
+  <li>Berjalan melalui lorong $2$ dan menuju ruangan $5$. Tas sekarang berisi berat $\{1, 5\}$.</li>
+  <li>Keluar dari candi dengan berat akhir tas $1 + 5 = 6$.</li>
+</ol><p>
+  Tidak ada cara lain untuk keluar dari candi dengan berat tas yang lebih sedikit.
+  Oleh karena itu, prosedur harus mengembalikan $6$.
+</p>
+
+<h3>Contoh <em>Grader</em></h3>
+
+<p>
+  Contoh <em>grader</em> membaca masukan dalam format berikut:
+</p><ul>
+  <li> baris $1$: $N \;\; M \;\; K$ </li>
+  <li> baris $2 + i$ ($0 \le i \le M - 1$): $U[i] \;\; V[i] \;\; W[i]$ </li>
+  <li> baris $M + 2$: $P[0] \;\; P[1] \;\; \ldots \;\; P[K - 1]$ </li>
+</ul>
+
+<p>
+  Contoh <em>grader</em> mencetak jawaban Anda dalam format berikut:
+</p><ul>
+  <li> baris $1$: nilai yang dikembalikan <code>min_weights</code>. </li>
+</ul>

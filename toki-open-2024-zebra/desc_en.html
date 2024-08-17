@@ -1,0 +1,148 @@
+<!-- Title: Zebraism -->
+
+<p>The attachment for this problem can be downloaded from <a href="render/zebra.zip">here</a>.</p>
+
+<h3>Description</h3>
+
+<p>
+  Pak Dengklek has a tree of $N$ vertices and $N - 1$ edges.
+  Vertices are numbered from $0$ to $N - 1$ and edges are numbered from $0$ to $N - 2$.
+  Edge $i$ ($0 \le i \le N - 2$) connects vertices $U[i]$ and $V[i]$.
+  A leaf is a vertex with exactly one edge that is incident to it.
+  The tree that Pak Dengklek owns has at least <strong>three</strong> leaves in it.
+</p><p>
+  Pak Dengklek <em>zebrafies</em> the tree as follows.
+  Pak Dengklek secretly chooses a vertex as its <em>root</em>, say $R$.
+  Then, Pak Dengklek will colour the edges as follows:
+</p><ul>
+  <li> Colour all edges that connect $R$ and child of $R$ with black.</li>
+  <li> Colour all edges that connect child of $R$ and child of child of $R$ as white.</li>
+  <li> Colour all edges that connect child of child of $R$ and child of child of child of $R$ as black.</li>
+  <li> And so on. </li>
+</ul><p>
+  More formally, let the depth of a vertex $v$ be the number of edges traversed from vertex $v$ to $R$.
+  Specifically, the depth of $R$ itself is $0$.
+  Then, the edges that connect a vertex of depth $d$ and $d + 1$ is coloured black if $d$ is even, or white if $d$ is odd.
+</p><p>
+  You do not know what is the chosen root vertex.
+  You want to find out where the root is by asking several queries.
+  In one query, you give Pak Dengklek a set of one or more edges, then Pak Dengklek will reply whether all the edges in the set are of the same colour, or there are two edges with different colours.
+  You may ask at most $500$ queries.
+</p><p>
+  Find what is the root vertex chosen by Pak Dengklek using as few queries as possible.
+</p>
+
+<h3>Constraints</h3>
+
+<ul>
+  <li> $4 \le N \le 500$</li>
+  <li> $0 \le U[i] < V[i] \le N - 1$</li>
+  <li> The edges form a tree. </li>
+  <li> There are at least three leaves in the tree. </li>
+</ul>
+
+<h3>Subtasks</h3>
+
+<ol>
+  <li> (12 points) $U[i] = 0$; $V[i] = i + 1$ (for each $0 \le i \le N - 2$)</li>
+  <li> (18 points) $U[i] = i$; $V[i] = i + 1$ (for each $0 \le i \le N - 3$); $U[N - 2] = N - 3$; $V[N - 2] = N - 1$.</li>
+  <li> (70 points) No additional constraints.</li>
+</ol>
+
+<p>
+  In each of subtasks 1 and 2, you can only obtain its subtask points if you ask at most <strong>$\mathbf{20}$ times</strong> in each of its test cases.
+</p><p>
+  In subtask 3, you can obtain a partial score.
+  Let $Q$ be the maximum number of queries you used across all test cases in this subtask.
+  Your score for this subtask is calculated according to the following table:
+</p>
+
+<table>
+  <tbody>
+    <tr>
+      <th style="text-align: center;">Q</th>
+      <th style="text-align: center;">Points</th>
+    </tr>
+    <tr>
+      <td style="text-align:center">$500 \lt Q$</td>
+      <td style="text-align:center">$0$</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">$20 \lt Q \leq 500$</td>
+      <td style="text-align:center">$\left\lfloor \frac{1}{4000} \cdot ((500 - x)^2 + 50000) \right\rfloor$</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">$Q \leq 20$</td>
+      <td style="text-align:center">$70$</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Implementation Details</h3>
+
+You should implement the following procedure.
+
+<pre>
+int find_root(int N, std::vector&lt;int&gt; U, std::vector&lt;int&gt; V)
+</pre>
+
+<ul>
+  <li> $N$: the number of vertices in the tree. </li>
+  <li> $U$, $V$: arrays of length $N - 1$ describing the edges. </li>
+  <li> This procedure should return the vertex number of the root chosen by Pak Dengklek. </li>
+  <li> This procedure is called exactly once for each test case. </li>
+</ul>
+
+The above procedure can make calls to the following procedure.
+
+<pre>
+int is_zebra(std::vector&lt;int&gt; E)
+</pre>
+
+<ul>
+  <li> $E$: a nonempty array of edge numbers. Each of its element must be between $0$ and $N - 2$.</li>
+  <li> The procedure returns $0$ if all the colours of the edges with edge numbers in $E$ are the same, or returns $1$ if there are two edges with different colours whose edge numbers are in $E$. </li>
+  <li> This procedure can be called at most $500$ times. </li>
+  <li> The grader is <strong>not adaptive</strong>. That is, the chosen root has been fixed before <code>find_root</code> is called. </li>
+</ul>
+
+<h3>Example</h3>
+
+<p>Consider the following call.</p>
+
+<pre>
+find_root(7, [0, 1, 2, 2, 0, 3], [1, 5, 6, 3, 3, 4])
+</pre>
+
+<p>
+  Suppose that Pak Dengklek chooses vertex $3$ as its root.
+  After Pak Dengklek <em>zebrafies</em> it, the tree can be illustrated as follows.
+</p><p align="center">
+  <img src="render/sample.png" style="width: 200px"/>
+</p><p>
+  The procedure then called:
+<ul>
+  <li><code>is_zebra([1, 4, 5])</code> and returned $0$.</li>
+  <li><code>is_zebra([0, 3, 1, 2])</code> and returned $1$.</li>
+  <li><code>is_zebra([0, 0, 5, 5])</code> and returned $1$.</li>
+  <li><code>is_zebra([3])</code> and returned $0$.</li>
+</ul><p>
+  There is sufficient information to conclude that the chosen root is vertex $3$.
+  Therefore, the procedure should return $3$.
+</p>
+
+<h3>Sample Grader</h3>
+
+<p>
+  The sample grader reads the input in the following format:
+</p><ul>
+  <li> line $1$: $N \;\; R$ </li>
+  <li> line $2 + i$ ($0 \le i \le N - 2$): $U[i] \;\; V[i]$ </li>
+</ul>
+
+<p>
+  The sample grader prints your answer in the following format:
+</p><ul>
+  <li> line $1$: the return value of <code>find_root</code>. </li>
+  <li> line $2$: the number of calls to <code>is_zebra</code>. </li>
+</ul>

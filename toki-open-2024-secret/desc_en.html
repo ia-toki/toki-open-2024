@@ -1,0 +1,141 @@
+<!-- Title: Secret Organisation -->
+
+<p>The attachment for this problem can be downloaded from <a href="render/secret.zip">here</a>.</p>
+
+<h3>Description</h3>
+
+<p>
+  There is a secret organisation with $N$ members, numbered from $0$ to $N - 1$.
+  There are $M$ villages, numbered from $0$ to $M - 1$, where those members live.
+  Member $i$ ($0 \le i \le N - 1$) lives in village $A[i]$.
+</p><p>
+  The villages are connected in a circular way by $M$ bidirectional roads, numbered from $0$ to $M - 1$.
+  Road $j$ connects villages $j$ and $j + 1$ (for each $0 \le j \le M - 2$) and road $M - 1$ connects villages $0$ and village $M - 1$.
+  The lengths of all roads are the same, so each road can be traversed in $1$ unit of time.
+</p><p>
+  Inside the organisation, member $S$ can issue a secret order to member $T$ ($S < T$).
+  The order should be relayed from member $S$ to $S + 1$, then from member $S+1$ to $S+2$, and so on, until it finally reaches member $T$.
+</p><p>
+  The police department sometimes makes strict surveillance on some roads preventing any suspicious activities.
+  Roads under strict surveillance cannot be used by secret organisation members to deliver orders.
+  Initially, all roads are <strong>not</strong> under strict surveillance.
+</p><p>
+  There are $Q$ events, each is one of the following two types.
+</p><ul>
+  <li><code>toggle(R)</code>: the police department changes the surveillance status of road $R$, i.e. it will be under strict surveillance if it is currently not under strict surveillance, and vice versa.</li>
+  <li><code>query(S, T)</code>: find the minimum time to relay the secret order issued by member $S$ to member $T$ without using roads under strict surveillance, or report if achieving such a thing is impossible.
+</ul><p>
+  You have to answer all the queries.
+</p>
+
+<h3>Constraints</h3>
+
+<ul>
+  <li> $2 \le N \le 100\,000$</li>
+  <li> $3 \le M \le 10^9$</li>
+  <li> $0 \le A[i] \le M - 1$ (for each $0 \le i \le N - 1$) </li>
+  <li> $1 \le Q \le 100\,000$</li>
+  <li> $0 \le S < T \le N - 1$</li>
+  <li> $0 \le R \le M - 1$</li>
+</ul>
+
+<h3>Subtasks</h3>
+
+<ol>
+  <li> (7 points) The <code>toggle</code> event will never happen.</li>
+  <li> (9 points) $N \le 2000$; $Q \le 2000$</li>
+  <li> (15 points) $A[i] < A[i + 1]$ (for each $0 \le i \le N - 2$)</li>
+  <li> (20 points) Road $M - 1$ will always be under surveillance each time a <code>query</code> event happens. </li>
+  <li> (20 points) $S = 0$; $T = N - 1$ </li>
+  <li> (29 points) No additional constraints. </li>
+</ol>
+
+<h3>Implementation Details</h3>
+
+You should implement the following procedure.
+
+<pre>
+void init(int N, int M, std::vector&lt;int&gt; A)
+</pre>
+
+<ul>
+  <li> $N$: the number of members. </li>
+  <li> $M$: the number of villages. </li>
+  <li> $A$: an array of length $N$ describing where the members live. </li>
+  <li> This procedure is called exactly once for each test case, before any calls to <code>toggle</code> and <code>query</code>. </li>
+</ul>
+
+<pre>
+void toggle(int R)
+</pre>
+
+<ul>
+  <li> $R$: the road that has its surveillance status changed. </li>
+  <li> This procedure is called less than $Q$ times. </li>
+</ul>
+
+<pre>
+long long query(int S, int T)
+</pre>
+
+<ul>
+  <li> $S$, $T$: the members issuing and receiving the order. </li>
+  <li> This procedure should return the minimum time to relay the order. If it is impossible, then this procedure should return $-1$.
+  <li> This procedure and <code>toggle</code> procedure are called exactly $Q$ times in total.
+</ul>
+
+<h3>Example</h3>
+
+<p>Consider the following call.</p>
+
+<pre>
+init(4, 5, [1, 1, 4, 2])
+</pre>
+
+<p>
+  Next, the grader calls <code>toggle(4)</code>.
+  Road $4$ connecting village $0$ and village $4$ is now under surveillance.
+</p><p>
+  Suppose the grader then calls <code>query(1, 2)</code>.
+  Member $1$ relays order to member $2$ through roads $1$, $2$, $3$ in $3$ units of time.
+  Therefore, you should return $3$.
+</p><p>
+  Next, the grader calls <code>toggle(1)</code>.
+  Road $1$ connecting village $1$ and village $2$ is now under surveillance.
+</p><p>
+  Suppose the grader then calls <code>query(1, 2)</code>.
+  There is no way for member $1$ to relay the order to member $2$.
+  Therefore, the procedure should return $-1$.
+</p><p>
+  Suppose the grader then calls <code>query(0, 1)</code>.
+  Because member $0$ and member $1$ live in the same village, no roads are used.
+  Therefore, the procedure should return $0$.
+</p><p>
+  Next, the grader calls <code>toggle(1)</code> and then <code>toggle(4)</code>.
+  Road $1$ and road $4$ are now no longer under surveillance.
+</p><p>
+  Suppose the grader then calls <code>query(0, 3)</code>.
+  It can be shown that the order can be relayed to member $1$, $2$, then $3$ with $0$, $2$, and $2$ units of time respectively with a total time of $4$ units of time.
+  Therefore, you should return $4$.
+</p>
+
+<h3>Sample Grader</h3>
+
+<p>
+  The sample grader reads the input in the following format:
+</p><ul>
+  <li> line $1$: $N \;\; M \;\; Q$ </li>
+  <li> line $2$: $A[0] \;\; A[1] \;\; \ldots \;\; A[N - 1]$ </li>
+  <li> line $3 + j$ ($0 \le j \le Q - 1$):
+    <ul>
+      <li>$0 \;\; R$ if the $j$-th event is <code>toggle(R)</code></li>
+      <li>$1 \;\; S \;\; T$ if the $j$-th event is <code>query(S, T)</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+  The sample grader prints your answer in the following format:
+</p><ul>
+  <li> line $j$ ($j \ge 1$): the return value of $j$-th call to <code>query</code>. </li>
+</ul>

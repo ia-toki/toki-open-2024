@@ -1,0 +1,113 @@
+<!-- Title: Sisa Prasmanan -->
+
+<p>Lampiran dari soal ini bisa diunduh di <a href="render/buffet.zip">sini</a>.</p>
+
+<h3>Deskripsi</h3>
+
+<p>
+  Anda sedang mengadakan sebuah prasmanan yang melayani $10^{15}$ tamu.
+  Prasmanan ini menyajikan makanannya dalam $N$ buah loyang, dinomori dari $0$ sampai $N - 1$, yang disusun di atas meja dari kiri ke kanan.
+  Loyang $i$ diisi dengan $A[i]$ porsi makanan.
+</p><p>
+  Setiap tamu undangan, satu per satu, akan mengambil makanan atau tidak melakukan apa-apa.
+  Apabila ia mengambil makanan, maka ia akan mengambil dari sisi kiri atau kanan meja, mengambil satu porsi makanan dari masing-masing loyang seiring ia bergerak, dan meninggalkan mejanya apabila loyang yang ia lihat kosong atau ia sudah merasa cukup.
+  Lebih formalnya,
+</p><ul>
+  <li>jika tamu mengambil makanan dari kiri, ia akan memilih sebuah bilangan bulat $k$ ($0 \le k \le N - 1$) sehingga $A[i] > 0$ (untuk setiap $0 \le i \le k$) dan <strong>mengurangi satu</strong> porsi loyang $i$ (untuk setiap $0 \le i \le k$);</li>
+  <li>jika tamu mengambil makanan dari kanan, ia akan memilih sebuah bilangan bulat $k$ ($0 \le k \le N - 1$) sehingga $A[i] > 0$ (untuk setiap $k \le i \le N - 1$) dan <strong>mengurangi satu</strong> porsi loyang $i$ (untuk setiap $k \le i \le N - 1$);</li>
+</ul><p>
+  Setelah para tamu mengambil makanannya, beberapa loyang bisa memiliki sisa makanan.
+  Banyaknya sisa makanan didefinisikan sebagai jumlah dari porsi makanan sisa semua loyang.
+  Karena Anda tidak senang dengan makanan yang disia-siakan, Anda ingin tahu berapakah sisa makanan minimum yang mungkin setelah para tamu mengambil makanannya.
+</p>
+
+<h3>Batasan</h3>
+
+<ul>
+  <li> $1 \le N \le 200\,000$</li>
+  <li> $0 \le A[i] \le 10^9$ (untuk setiap $0 \le i \le N - 1$)</li>
+</ul>
+
+<h3>Subsoal</h3>
+
+<ol>
+  <li> (4 poin) $N \le 2000$; $A[0] = A[N - 1] = 0$. </li>
+  <li> (15 poin) $N \le 2000$; $A[i] \le 50$ (untuk setiap $0 \le i \le N - 1$) </li>
+  <li> (10 poin) $N \le 2000$; $A[N - 1] = 0$ </li>
+  <li> (16 poin) $N \le 2000$. Terdapat sebuah bilangan bulat $k$ ($0 \le k \le N - 2$) sehingga $A[i] \leq A[i + 1]$ (untuk setiap $0 \le i \le k - 1$) dan $A[i] \geq A[i + 1]$ (untuk setiap $k \le i \le N - 2$). </li>
+  <li> (24 poin) $N \le 2000$; $A[0] = A[N - 1]$; $A[i] \geq A[0]$ (untuk setiap $0 \le i \le N - 1$) </li>
+  <li> (17 poin) $N \le 2000$ </li>
+  <li> (14 poin) Tidak ada batasan tambahan. </li>
+</ol>
+
+<h3>Detail Implementasi</h3>
+
+Anda harus mengimplementasikan prosedur berikut.
+
+<pre>
+long long min_leftover(int N, std::vector&lt;int&gt; A)
+</pre>
+
+<ul>
+  <li> $N$: banyaknya loyang.
+  <li> $A$: sebuah <em>array</em> sepanjang $N$ yang mendeskripsikan porsi-porsi makanan di prasmanan.
+  <li> Prosedur ini harus mengembalikan minimum banyaknya sisa makanan.
+  <li> Prosedur ini dipanggil tepat sekali untuk setiap kasus uji.
+</ul>
+
+<h3>Contoh</h3>
+
+<h4>Contoh 1</h4>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+min_leftover(5, [2, 1, 3, 4, 1])
+</pre>
+
+<p>
+  Pada contoh ini, tamu bisa mengambil makanannya sebagai berikut.
+<ul>
+  <li>Tamu pertama memulai dari kiri, mengambil satu porsi dari masing-masing loyang hingga loyang $3$.</li>
+  <li>Tamu selanjutnya memulai dari kanan, mengambil satu porsi dari masing-masing loyang hingga loyang $2$.</li>
+  <li>Tamu selanjutnya memulai dari kiri, mengambil satu porsi dari masing-masing loyang hingga loyang $0$.</li>
+  <li>Tamu sisanya tidak melakukan apa-apa.</li>
+</ul><p>
+  Porsi yang terisa pada loyang adalah $[0, 0, 1, 2, 0]$.
+  Tidak terdapat cara lain bagi tamu untuk mengambil makanannya yang memberikan sisa makanan yang lebih sedikit.
+  Oleh karena itu, prosedur ini harus mengembalikan $3$.
+</p>
+
+<h4>Contoh 2</h4>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+min_leftover(6, [1, 1, 2, 2, 1, 1])
+</pre>
+
+<p>
+  Pada contoh ini, tamu bisa mengambil makanannya sebagai berikut.
+</p><ul>
+  <li>Tamu pertama memulai dari kanan, mengambil satu porsi dari masing-masing loyang hingga loyang $2$.</li>
+  <li>Tamu selanjutnya memulai dari kiri, mengambil satu porsi dari masing-masing loyang hingga loyang $3$.</li>
+  <li>Tamu sisanya tidak melakukan apa-apa.</li>
+</ul><p>
+  Tidak terdapat sisa makanan setelah tamu mengambil makanannya.
+  Oleh karena itu, prosedur ini harus mengembalikan $0$.
+</p>
+
+<h3>Contoh <em>Grader</em></h3>
+
+<p>
+  Contoh <em>grader</em> membaca masukan dalam format berikut:
+</p><ul>
+  <li> baris $1$: $N$
+  <li> baris $2$: $A[0] \;\; A[1] \;\; \ldots \;\; A[N - 1]$
+</ul>
+
+<p>
+  Contoh <em>grader</em> mencetak jawaban Anda dalam format berikut:
+</p><ul>
+  <li> baris $1$: nilai yang dikembalikan <code>min_leftover</code>.
+</ul>

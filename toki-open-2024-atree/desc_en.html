@@ -1,0 +1,134 @@
+<!-- Title: Copper Mine -->
+
+<p>The attachment for this problem can be downloaded from <a href="render/copper.zip">here</a>.</p>
+
+<h3>Description</h3>
+
+<p>
+  There is a tree-shaped copper mine with $N$ rooms, numbered from $0$ to $N - 1$, and $N - 1$ railways, numbered from $0$ to $N - 2$.
+  Railway $i$ ($0 \le i \le N - 2$) connects rooms $U[i]$ and $V[i]$.
+</p><p>
+  You are operating a minecart that navigates between the rooms using the railways.
+  The minecart is operated using $M$ buttons, numbered from $0$ to $M - 1$ from left to right.
+  Button $j$ ($0 \le j \le M - 1$) will take the minecart to room $A[j]$.
+  When a minecart is in room $u$, you can press a button that takes you to room $v$ if and only if $u$ and $v$ are connected by a railway.
+  The minecart can explore all the rooms, i.e., for any room $i$ ($0 \le i \le N - 1$), there exists a button (possibly more than one) that takes you to room $i$.
+</p><p>
+  As an operator of the minecart, there is a safety protocol that you have to follow.
+  You have to operate the minecart using only one hand, holding one button at all times.
+  Whenever you decide to move, you will choose a button that you can press, press it, and then your hand will stay holding on to the pressed button.
+  A <em>risky move</em> is when you move your hand to the left, or more formally: suppose your hand is on button $a$ and you decided to press button $b$, then the move is risky if and only if $b &lt; a$.
+  The <em>total risk</em> is the number of risky moves that you make throughout the whole navigation.
+  Initially, the minecart is located in room $0$ and your hand is holding button $0$.
+  You are guaranteed that $A[0] = 0$.
+</p><p>
+  There is a sequence of rooms $S$ of length $L$ that you have to visit <strong>in that order</strong>.
+  In other words, you must first visit room $S[0]$, then room $S[1]$, then room $S[2]$, and so on, and finally room $S[L - 1]$.
+  You are also guaranteed that $S[k] \neq S[k + 1]$, for all $0 \le k \le L - 2$.
+</p><p>
+  You have to find the minimum total risk after you have visited the sequence of rooms $S$.
+</p>
+
+<h3>Constraints</h3>
+
+<ul>
+  <li> $2 \le N \le 100\,000$</li>
+  <li> $N \le M \le 200\,000$</li>
+  <li> $1 \le L \le 100\,000$</li>
+  <li> $0 \le U[i] &lt; V[i] \le N - 1$ (for each $0 \le i \le N - 2$)</li>
+  <li> $0 \le A[j] \le N - 1$ (for each $0 \le j \le M - 1$)</li>
+  <li> $A[0] = 0$ </li>
+  <li> Each $i$ ($0 \le i \le N - 1$) appears at least once in $A$</li>
+  <li> $0 \le S[k] \le N - 1$ (for each $0 \le k \le L - 1$)</li>
+  <li> $S[k] \neq S[k + 1]$ (for each $0 \le k \le L - 2$)</li>
+  <li> The railways form a tree. </li>
+</ul>
+
+<h3>Subtasks</h3>
+
+<ol>
+  <li> (9 points) $M = N$; $U[i] = i$; $V[i] = i + 1$ (for each $0 \le i \le N - 2$)</li>
+  <li> (18 points) $M = N$</li>
+  <li> (16 points) $N, M, L \le 4000$</li>
+  <li> (31 points) $U[i] = i$; $V[i] = i + 1$ (for each $0 \le i \le N - 2$)</li>
+  <li> (26 points) No additional constraints.</li>
+</ol>
+
+<h3>Implementation Details</h3>
+
+You should implement the following procedure.
+
+<pre>
+long long min_risk(int N, int M, int L, std::vector&lt;int&gt; U, std::vector&lt;int&gt; V, std::vector&lt;int&gt; A, std::vector&lt;int&gt; S)
+</pre>
+
+<ul>
+  <li> $N$: the number of rooms in the copper mine. </li>
+  <li> $M$: the number of buttons. </li>
+  <li> $L$: the length of the sequence of rooms to visit. </li>
+  <li> $U$, $V$: arrays of length $N - 1$ describing the railways. </li>
+  <li> $A$: array of length $M$ describing the buttons. </li>
+  <li> $S$: array of length $L$ describing the sequence of rooms to visit. </li>
+  <li> This procedure should return the minimum total risk. </li>
+  <li> This procedure is called exactly once for each test case. </li>
+</ul>
+
+
+<h3>Examples</h3>
+
+<h4>Example 1</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+min_risk(4, 6, 3, [1, 0, 1], [2, 1, 3], [0, 3, 2, 1, 3, 1], [0, 2, 3])
+</pre>
+
+<p>
+  The copper mine can be illustrated as follows.
+</p><p align="center">
+  <img src="render/sample.png" style="width: 250px" />
+</p><p>
+  You can move the minecart as follows.
+</p><ol>
+  <li>Initially, you are holding button $0$ and in room $0$, hence room $S[0]$ is visited. </li>
+  <li>Press button $5$ and move to room $1$.</li>
+  <li>Press button $2$ and move to room $2$; you visited room $S[1]$; this is a risky move.</li>
+  <li>Press button $3$ and move to room $1$.</li>
+  <li>Press button $4$ and move to room $3$; you visited room $S[2]$.</li>
+</ol><p>
+  You visited the sequence of rooms with a total risk of $1$.
+  There are no ways to visit the sequence of rooms with fewer risky moves.
+  Therefore, the procedure should return $1$.
+</p>
+
+<h4>Example 2</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+min_risk(5, 9, 2, [0, 1, 2, 3], [1, 2, 3, 4], [0, 2, 4, 1, 3, 1, 4, 2, 0], [4, 2])
+</pre>
+
+<p>
+  Initially, you are holding button $0$, then you press the buttons $5$, $1$, $4$, $2$, $4$, $7$, in that order.
+  The total risk is $2$ and there are no ways to achieve fewer risky moves.
+  Therefore, the procedure should return $2$.
+</p>
+
+<h3>Sample Grader</h3>
+
+<p>
+  The sample grader reads the input in the following format:
+</p><ul>
+  <li> line $1$: $N \;\; M \;\; L$ </li>
+  <li> line $2 + i$ ($0 \le i \le N - 2$): $U[i] \;\; V[i]$ </li>
+  <li> line $N + 1$: $A[0] \;\; A[1] \;\; \ldots \;\; A[M - 1]$ </li>
+  <li> line $N + 2$: $S[0] \;\; S[1] \;\; \ldots \;\; S[L - 1]$ </li>
+</ul>
+
+<p>
+  The sample grader prints your answer in the following format:
+</p><ul>
+  <li> line $1$: the return value of <code>min_risk</code>. </li>
+</ul>

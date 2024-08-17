@@ -1,0 +1,113 @@
+<!-- Title: Buffet Leftovers -->
+
+<p>The attachment for this problem can be downloaded from <a href="render/buffet.zip">here</a>.</p>
+
+<h3>Description</h3>
+
+<p>
+  You are hosting a buffet serving $10^{15}$ guests.
+  The buffet serves its meals on $N$ plates, numbered from $0$ to $N - 1$, arranged on a table from left to right.
+  Plate $i$ is filled with $A[i]$ portions of food.
+</p><p>
+  Each of the guests, one by one, either takes some food or does nothing.
+  If they takes some food, they takes their food either from the left or the right of the table, takes one portion of food from each plate as they move, and leaves the table when they see an empty plate or decide to leave.
+  More formally,
+</p><ul>
+  <li>if the guest take their food from the left, they choose an integer $k$ ($0 \le k \le N - 1$) such that $A[i] > 0$ (for each $0 \le i \le k$) and <strong>decrease by one</strong> the portion of plate $i$ (for each $0 \le i \le k$);</li>
+  <li>if the guest take their food from the right, they choose an integer $k$ ($0 \le k \le N - 1$) such that $A[i] > 0$ (for each $k \le i \le N - 1$) and <strong>decrease by one</strong> the portion of plate $i$ (for each $k \le i \le N - 1$);</li>
+</ul><p>
+  After the guests have taken their food, there may be some leftovers on the plates.
+  The amount of leftovers is defined as the sum of portions of each of the plates.
+  Since you do not like to waste your food, you want to know what is the minimum possible amount of leftovers after the guests have taken their food.
+</p>
+
+<h3>Constraints</h3>
+
+<ul>
+  <li> $1 \le N \le 200\,000$</li>
+  <li> $0 \le A[i] \le 10^9$ (for each $0 \le i \le N - 1$)</li>
+</ul>
+
+<h3>Subtasks</h3>
+
+<ol>
+  <li> (4 points) $N \le 2000$; $A[0] = A[N - 1] = 0$. </li>
+  <li> (15 points) $N \le 2000$; $A[i] \le 50$ (for each $0 \le i \le N - 1$) </li>
+  <li> (10 points) $N \le 2000$; $A[N - 1] = 0$ </li>
+  <li> (16 points) $N \le 2000$. There exists an integer $k$ ($0 \le k \le N - 2$) such that $A[i] \leq A[i + 1]$ (for each $0 \le i \le k - 1$) and $A[i] \geq A[i + 1]$ (for each $k \le i \le N - 2$). </li>
+  <li> (24 points) $N \le 2000$; $A[0] = A[N - 1]$; $A[i] \geq A[0]$ (for each $0 \le i \le N - 1$)
+  <li> (17 points) $N \le 2000$ </li>
+  <li> (14 points) No additional constraints. </li>
+</ol>
+
+<h3>Implementation Details</h3>
+
+You should implement the following procedure.
+
+<pre>
+long long min_leftover(int N, std::vector&lt;int&gt; A)
+</pre>
+
+<ul>
+  <li> $N$: the number of plates.
+  <li> $A$: an array of length $N$ describing the portions of foods in the buffet.
+  <li> This procedure should return the minimum amount of leftovers.
+  <li> This procedure is called exactly once for each test case.
+</ul>
+
+<h3>Examples</h3>
+
+<h4>Example 1</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+min_leftover(5, [2, 1, 3, 4, 1])
+</pre>
+
+<p>
+  In this example, the guests may take their food as follows.
+</p><ul>
+  <li>The first guest starts from the left, take one portion from each plate until plate $3$.</li>
+  <li>The next guest starts from the right, take one portion from each plate until plate $2$.</li>
+  <li>The next guest starts from the left, take one portion from each plate until plate $0$.</li>
+  <li>The rest of the guests do nothing.</li>
+</ul><p>
+  The portions left on the plates are $[0, 0, 1, 2, 0]$.
+  There are no other ways for the guests to take their food that gives less leftovers.
+  Therefore, the procedure should return $3$.
+</p>
+
+<h4>Example 2</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+min_leftover(6, [1, 1, 2, 2, 1, 1])
+</pre>
+
+<p>
+  In this example, the guests may take their food as follows.
+</p><ul>
+  <li>The first guest starts from the right, take one portion from each plate until plate $2$.</li>
+  <li>The next guest starts from the left, take one portion from each plate until plate $3$.</li>
+  <li>The rest of the guests do nothing.</li>
+</ul><p>
+  There are no leftovers after the guests take their food.
+  Therefore, the procedure should return $0$.
+</p>
+
+<h3>Sample Grader</h3>
+
+<p>
+  The sample grader reads the input in the following format:
+</p><ul>
+  <li> line $1$: $N$ </li>
+  <li> line $2$: $A[0] \;\; A[1] \;\; \ldots \;\; A[N - 1]$ </li>
+</ul>
+
+<p>
+  The sample grader prints your answer in the following format:
+</p><ul>
+  <li> line $1$: the return value of <code>min_leftover</code>. </li>
+</ul>

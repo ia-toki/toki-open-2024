@@ -1,0 +1,139 @@
+<!-- Title: Purwokerto -->
+
+<p>The attachment for this problem can be downloaded from <a href="render/purwokerto.zip">here</a>.</p>
+
+<h3>Description</h3>
+
+<p>
+  You are playing a board game called Purwokerto.
+  In this game, you have $N$ producer buildings, numbered from $0$ to $N - 1$, producing different materials.
+  Producer building $i$ ($0 \le i \le N - 1$) produces a material that sells for $i + 1$ coins per unit.
+  Each producer building has its own storage that can store one unit of its produced material.
+  If the storage is not empty, the building cannot produce a material.
+</p><p>
+  There will be $M$ days, numbered from $0$ to $M - 1$.
+  Each day $j$ ($0 \le j \le M - 1$) is characterised by an integer $T[j]$.
+</p><ul>
+  <li> If $T[j] = 0$, then it is a production day. You can either do nothing, or choose exactly one producer building with empty storage and produce one unit of its material.</li>
+  <li> If $T[j] = 1$, then it is a trading day. You can either do nothing, or choose exactly one producer building with non-empty storage and sell the unit material in the storage. </li>
+</ul><p>
+  Initially, the storages in all buildings are empty.
+  After these $M$ days have passed, the storage in all buildings must also be empty.
+</p><p>
+  You have to find the maximum number of coins that you can get after those $M$ days.
+  Additionally, you have to find the number of ways, modulo $1\,000\,000\,007$, to achieve the maximum number of coins.
+</p><p>
+  Note: two ways are considered different if and only if there exists a day where you do nothing in one way but not the other, or the building you choose to produce/sell is different.
+</p>
+
+<h3>Constraints</h3>
+
+<ul>
+  <li> $1 \le N \le 200\,000$</li>
+  <li> $1 \le M \le 200\,000$</li>
+  <li> $T[j] \in \{0, 1\}$ (for each $0 \le j \le M - 1$) </li>
+</ul>
+
+<h3>Subtasks</h3>
+
+<ol>
+  <li> (12 points) $N = 1$</li>
+  <li> (24 points) $N \le 11$; $M \le 2000$</li>
+  <li> (40 points) $N \le 200$</li>
+  <li> (24 points) No additional constraints.</li>
+</ol>
+
+<p>
+  In each subtask, you can obtain $25\%$ of its subtask points if you can only find the maximum number of coins correctly (and incorrectly find the number of ways to obtain the maximum number of coins).
+  To get the full points, you have to find both the maximum number of coins and the number of ways to obtain that number of coins.
+</p>
+
+<h3>Implementation Details</h3>
+
+You should implement the following procedure.
+
+<pre>
+std::pair&lt;long long, int&gt; purwokerto(int N, int M, std::vector&lt;int&gt; T)
+</pre>
+
+<ul>
+  <li> $N$: the number of production buildings. </li>
+  <li> $M$: the number of days. </li>
+  <li> $T$: an array of length $M$ describing the days. </li>
+  <li> This procedure should return the maximum number of coins and the number of ways to obtain that number of coins. </li>
+  <li> This procedure is called exactly once for each test case. </li>
+</ul>
+
+
+<h3>Examples</h3>
+
+<h4>Example 1</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+purwokerto(2, 8, [0, 0, 1, 0, 0, 1, 1, 1])
+</pre>
+
+<p>
+  You can do the following on those $8$ days.
+</p><ol>
+  <li>Produce one unit of material from production building $1$.</li>
+  <li>Do nothing.</li>
+  <li>Sell the material from production building $1$, obtaining $2$ coins.</li>
+  <li>Produce one unit of material from production building $0$.</li>
+  <li>Produce one unit of material from production building $1$.</li>
+  <li>Sell the material from production building $0$, obtaining $1$ coins.</li>
+  <li>Do nothing.</li>
+  <li>Sell the material from production building $1$, obtaining $2$ coins.</li>
+</ol><p>
+  In total, you obtain $2 + 1 + 2 = 5$ coins, and there are no other ways to obtain more coins.
+  It can be proven that the number of ways to obtain $5$ coins is $48$.
+  Therefore, the procedure should return $\{5, 48\}$.
+</p><p>
+  If, for example, you returned $\{5, 0\}$ instead, then you will only earn $25\%$ of the subtasks points because the returned maximum number is correct but the returned number of ways is incorrect.
+</p>
+
+<h4>Example 2</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+purwokerto(100000, 2, [1, 0])
+</pre>
+
+<p>
+  In this example, there is nothing to sell on day $0$ and you can not produce on day $1$ because the storage in all buildings must be empty after those $2$ days.
+  The maximum number of coins you can obtain is $0$, and the number of ways to achieve this is $1$, i.e. doing nothing on each day.
+  Therefore, the procedure should return $\{0, 1\}$.
+</p>
+
+<h4>Example 3</h4>
+
+<p>Consider the following call.</p>
+
+<pre>
+purwokerto(8, 16, [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1])
+</pre>
+
+<p>
+  In this example, you can have all producer buildings produce one unit of material in the first $8$ days, and sell all the materials in the last $8$ days.
+  This gives you the maximum number of coins of $36$.
+  The number of ways to achieve this is $(8!)^2 = 1\,625\,702\,400$, which is $625\,702\,393$ modulo $1\,000\,000\,007$.
+  Therefore, the procedure should return $\{36, 625\,702\,393\}$.
+</p>
+
+<h3>Sample Grader</h3>
+
+<p>
+  The sample grader reads the input in the following format:
+</p><ul>
+  <li> line $1$: $N \;\; M$ </li>
+  <li> line $2$: $T[0] \;\; T[1] \;\; \ldots \;\; T[M - 1]$ </li>
+</ul>
+
+<p>
+  The sample grader prints your answer in the following format:
+</p><ul>
+  <li> line $1$: the return value of <code>purwokerto</code>. </li>
+</ul>

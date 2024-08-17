@@ -1,0 +1,147 @@
+<!-- Title: Zebraisme -->
+
+<p>Lampiran dari soal ini bisa diunduh di <a href="render/zebra.zip">sini</a>.</p>
+
+<h3>Deskripsi</h3>
+
+<p>
+  Pak Dengklek mempunyai sebuah pohon dengan $N$ verteks dan $N - 1$ <em>edge</em>.
+  Verteks dinomori dari $0$ sampai $N - 1$, dan <em>edge</em> dinomori dari $0$ sampai $N - 2$.
+  <em>Edge</em> $i$ ($0 \le i \le N - 2$) menghubungkan verteks $U[i]$ dan $V[i]$.
+  Sebuah daun adalah sebuah verteks dengan tepat satu <em>edge</em> yang menghubungkannya.
+  Pohon yang dimiliki Pak Denglek mempunyai setidaknya <strong>tiga</strong> daun.
+</p><p>
+  Pak Dengklek melakukan <em>zebrafikasi</em> ke pohonnya sebagai berikut.
+  Pak Dengklek memilih secara diam-diam sebuah verteks sebagai <em>akar</em>, katakanlah $R$.
+  Kemudian, Pak Dengklek akan mewarnai <em>edge</em>-nya sebagai berikut.
+</p><ul>
+  <li> Warnai semua <em>edge</em> yang menghubungkan $R$ dan anak dari $R$ dengan warna hitam.</li>
+  <li> Warnai semua <em>edge</em> yang menghubungkan anak dari $R$ dan anak dari anak dari $r$ dengan warna putih.</li>
+  <li> Warnai semua <em>edge</em> yang menghubungkan anak dari anak dari $R$ dan anak dari anak dari anak dari $R$ dengan warna hitam.</li>
+  <li> Dan seterusnya. </li>
+</ul><p>
+  Lebih formalnya, katakan kedalaman dari sebuah verteks $v$ sebagai banyaknya <em>edge</em> yang dilintasi dari verteks $v$ ke $R$.
+  Khususnya, kedalaman dari $R$ itu sendiri adalah $0$.
+  Kemudian, <em>edge</em> yang menghubungkan verteks dengan kedalaman $d$ dan $d + 1$ diwarnai hitam apabila $d$ genap, atau putih apabila $d$ ganjil.
+</p>
+  Anda tidak tahu verteks mana yang dipilih sebagai akar.
+  Anda ingin mencari tahu di mana akar berada dengan menanyakan beberapa pertanyaan.
+  Dalam sebuah pertanyaan, Anda memberikan Pak Dengklek satu atau lebih <em>edge</em>, kemudian Pak Dengklek akan menjawab apakah semua <em>edge</em> yang diberikan mempunyai warna yang sama, atau terdapat dua buah <em>edge</em> dengan warna yang berbeda.
+  Anda boleh bertanya paling banyak $500$ pertanyaan.
+</p><p>
+  Carilah verteks yang dipilih sebagai akar oleh Pak Dengklek menggunakan sesedikit mungkin pertanyaan.
+</p>
+
+<h3>Batasan</h3>
+
+<ul>
+  <li> $4 \le N \le 500$</li>
+  <li> $0 \le U[i] < V[i] \le N - 1$</li>
+  <li> <em>Edge</em> membentuk pohon. </li>
+  <li> Terdapat setidaknya tiga daun pada pohon. </li>
+</ul>
+
+<h3>Subsoal</h3>
+
+<ol>
+  <li> (12 poin) $U[i] = 0$; $V[i] = i + 1$ (untuk setiap $0 \le i \le N - 2$)</li>
+  <li> (18 poin) $U[i] = i$; $V[i] = i + 1$ (untuk setiap $0 \le i \le N - 3$); $U[N - 2] = N - 3$; $V[N - 2] = N - 1$.</li>
+  <li> (70 poin) Tidak ada batasan tambahan.</li>
+</ol>
+<p>
+  Untuk masing-masing subsoal 1 dan 2, Anda hanya bisa mendapatkan poin subsoalnya apabila Anda bertanya paling banyak <strong>$\mathbf{20}$ kali</strong> untuk setiap kasus ujinya.
+</p><p>
+  Untuk subsoal 3, Anda bisa mendapatkan nilai parsial.
+  Misalkan $Q$ adalah banyaknya pertanyaan maksimum yang Anda gunakan dari semua kasus uji yang ada pada subsoal ini.
+  Nilai Anda untuk subsoal ini dihitung menurut tabel berikut:
+</p>
+
+<table>
+  <tbody>
+    <tr>
+      <th style="text-align: center;">Q</th>
+      <th style="text-align: center;">Poin</th>
+    </tr>
+    <tr>
+      <td style="text-align:center">$500 \lt Q$</td>
+      <td style="text-align:center">$0$</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">$20 \lt Q \leq 500$</td>
+      <td style="text-align:center">$\left\lfloor \frac{1}{4000} \cdot ((500 - x)^2 + 50000) \right\rfloor$</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">$Q \leq 20$</td>
+      <td style="text-align:center">$70$</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Detail Implementasi</h3>
+
+Anda harus mengimplementasikan prosedur berikut.
+
+<pre>
+int find_root(int N, std::vector<int> U, std::vector<int> V)
+</pre>
+
+<ul>
+  <li> $N$: banyaknya verteks pada pohon. </li>
+  <li> $U$, $V$: <em>array</em> sepanjang $N - 1$ yang mendeskripsikan <em>edge</em>. </li>
+  <li> Prosedur ini harus mengembalikan nomor verteks dari akar yang dipilih oleh Pak Dengklek. </li>
+  <li> Prosedur ini dipanggil tepat sekali untuk setiap kasus uji. </li>
+</ul>
+
+Prosedur di atas dapat memanggil prosedur berikut.
+
+<pre>
+int is_zebra(std::vector&lt;int&gt; E)
+</pre>
+
+<ul>
+  <li> $E$: Sebuah <em>array</em> tak kosong yang berisi nomor <em>edge</em>. Setiap elemennya harus di antara $0$ dan $N - 2$.</li>
+  <li> Prosedur ini mengembalikan $0$ apabila warna semua <em>edge</em> dengan nomor yang ada di $E$ adalah sama, atau mengembalikan $1$ apabila terdapat dua <em>edge</em> yang memiliki warna berbeda yang nomornya ada di $E$. </li>
+  <li> Prosedur ini dapat dipanggil paling banyak $500$ kali. </li>
+  <li> <em>Grader</em> <strong>tidak adaptif</strong>. Dengan kata lain, akar yang dipilih sudah ditentukan sebelum <code>find_root</code> dipanggil. </li>
+</ul>
+
+<h3>Contoh</h3>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+find_root(7, [0, 1, 2, 2, 0, 3], [1, 5, 6, 3, 3, 4])
+</pre>
+
+<p>
+  Misalkan Pak Dengklek memilih verteks $3$ sebagai akarnya.
+  Setelah Pak Dengklek melakukan <em>zebrafikasi</em>, pohon bisa diilustrasikan sebagai berikut.
+</p><p align="center">
+  <img src="render/sample.png" style="width: 200px"/>
+</p><p>
+  Prosedur ini kemudian memanggil:
+<ul>
+  <li><code>is_zebra([1, 4, 5])</code> dan mengembalikan $0$.</li>
+  <li><code>is_zebra([0, 3, 1, 2])</code> dan mengembalikan $1$.</li>
+  <li><code>is_zebra([0, 0, 5, 5])</code> dan mengembalikan $1$.</li>
+  <li><code>is_zebra([3])</code> dan mengembalikan $0$.</li>
+</ul><p>
+  Terdapat informasi yang cukup untuk menyimpulkan bahwa akar yang dipilih adalah verteks $3$.
+  Oleh karena itu, prosedur harus mengembalikan $3$.
+</p>
+
+<h3>Contoh <em>Grader</em></h3>
+
+<p>
+  Contoh <em>grader</em> membaca masukan dalam format berikut:
+</p><ul>
+  <li> baris $1$: $N \;\; R$ </li>
+  <li> baris $2 + i$ ($0 \le i \le N - 2$): $U[i] \;\; V[i]$ </li>
+</ul>
+
+<p>
+  Contoh <em>grader</em> mencetak jawaban Anda dalam format berikut:
+</p><ul>
+  <li> baris $1$: nilai yang dikembalikan <code>find_root</code>. </li>
+  <li> baris $2$: banyaknya pemanggilan ke <code>is_zebra</code>. </li>
+</ul>

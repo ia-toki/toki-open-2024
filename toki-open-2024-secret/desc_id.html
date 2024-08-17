@@ -1,0 +1,141 @@
+<!-- Title: Organisasi Rahasia -->
+
+<p>Lampiran dari soal ini bisa diunduh di <a href="render/secret.zip">sini</a>.</p>
+
+<h3>Deskripsi</h3>
+
+<p>
+  Terdapat sebuah organisasi rahasia dengan $N$ anggota, dinomori dari $0$ sampai $N - 1$.
+  Terdapat $M$ desa, dinomori dari $0$ sampai $M - 1$, tempat para anggota tersebut tinggal.
+  Anggota $i$ ($0 \le i \le N - 1$) tinggal di desa $A[i]$.
+</p><p>
+  Desa-desa tersebut terhubung secara melingkar oleh $M$ jalan dua arah, dinomori dari $0$ sampai $M - 1$.
+  Jalan $j$ menghubungkan desa $j$ dan $j + 1$ (untuk setiap $0 \le j \le M - 2$) dan jalan $M - 1$ menghubungkan desa $0$ dan desa $M - 1$.
+  Panjang semua jalan adalah sama, sehingga setiap jalan bisa ditelusuri dalam $1$ unit waktu.
+</p><p>
+  Dalam organisasi ini, anggota $S$ bisa mengirimkan perintah rahasia ke anggota $T$ ($S < T$).
+  Perintah ini harus disampaikan secara estafet dari anggota $S$ ke $S+1$, kemudian dari anggota $S+1$ ke $S+2$, dan seterusnya, hingga akhirnya mencapai anggota $T$.
+</p><p>
+  Kepolisian terkadang melakukan pengawasan ketat pada sebagian jalan untuk mencegah hal-hal yang mencurigakan.
+  Jalan dalam pengawasan ketat tidak bisa digunakan oleh anggota organisasi rahasia untuk menyampaikan perintah.
+  Awalnya, semua jalan <strong>tidak</strong> dalam pengawasan ketat.
+</p><p>
+  Terdapat $Q$ kejadian, masing-masing merupakan salah satu dari kedua tipe ini.
+</p><ul>
+  <li><code>toggle(R)</code>: kepolisian mengubah status pengawasan jalan $R$, yaitu jalan menjadi diawasi ketat apabila sekarang tidak dalam pengawasan ketat, dan sebaliknya.</li>
+  <li><code>query(S, T)</code>: cari waktu minimum untuk menyampaikan perintah dari anggota $S$ ke anggota $T$ tanpa menggunakan jalan dalam pengawasan ketat, atau lapor jika hal tersebut mustahil.
+</ul><p>
+  Anda harus menjawab semua pertanyaannya.
+</p>
+
+<h3>Batasan</h3>
+
+<ul>
+  <li> $2 \le N \le 100\,000$</li>
+  <li> $3 \le M \le 10^9$</li>
+  <li> $0 \le A[i] \le M - 1$ (untuk setiap $0 \le i \le N - 1$) </li>
+  <li> $1 \le Q \le 100\,000$</li>
+  <li> $0 \le S < T \le N - 1$</li>
+  <li> $0 \le R \le M - 1$</li>
+</ul>
+
+<h3>Subsoal</h3>
+
+<ol>
+  <li> (7 poin) Kejadian <code>toggle</code> tidak pernah terjadi.</li>
+  <li> (9 poin) $N \le 2000$; $Q \le 2000$</li>
+  <li> (15 poin) $A[i] < A[i + 1]$ (untuk setiap $0 \le i \le N - 2$)</li>
+  <li> (20 poin) Jalan $M - 1$ selalu dalam pengawasan ketat setiap kali kejadian <code>query</code> terjadi. </li>
+  <li> (20 poin) $S = 0$; $T = N - 1$ </li>
+  <li> (29 poin) Tidak ada batasan tambahan. </li>
+</ol>
+
+<h3>Detail implementasi</h3>
+
+Anda harus mengimplementasikan prosedur berikut.
+
+<pre>
+void init(int N, int M, std::vector&lt;int&gt; A)
+</pre>
+
+<ul>
+  <li> $N$: banyaknya anggota. </li>
+  <li> $M$: banyaknya desa. </li>
+  <li> $A$: sebuah <em>array</em> sepanjang $N$ yang mendeskripsikan tempat para anggota tinggal. </li>
+  <li> Prosedur ini dipanggil tepat sekali untuk setiap kasus uji, sebelum pemanggilan <code>toggle</code> dan <code>query</code>. </li>
+</ul>
+
+<pre>
+void toggle(int R)
+</pre>
+
+<ul>
+  <li> $R$: jalan yang mengalami perubahan status pengawasan. </li>
+  <li> Prosedur ini dipanggil lebih sedikit dari $Q$ kali. </li>
+</ul>
+
+<pre>
+long long query(int S, int T)
+</pre>
+
+<ul>
+  <li> $S$, $T$: anggota yang memberikan dan menerima perintah. </li>
+  <li> Prosedur ini harus mengembalikan waktu minimum untuk menyampaikan perintahnya. Jika tidak mungkin, maka prosedur ini harus mengembalikan $-1$.
+  <li> Prosedur ini dan prosedur <code>toggle</code> dipanggil secara total tepat $Q$ kali.
+</ul>
+
+<h3>Contoh</h3>
+
+<p>Perhatikan pemanggilan berikut.</p>
+
+<pre>
+init(4, 5, [1, 1, 4, 2])
+</pre>
+
+<p>
+  Selanjutnya, <em>grader</em> memanggil <code>toggle(4)</code>.
+  Jalan $4$ yang menghubungkan desa $0$ dan desa $4$ kini dalam pengawasan ketat.
+</p><p>
+  Misalkan <em>grader</em> kemudian memanggil <code>query(1, 2)</code>.
+  Anggota $1$ mengirimkan perintah ke anggota $2$ melalui jalan $1$, $2$, $3$ dalam $3$ unit waktu.
+  Oleh karena itu, Anda harus mengembalikan $3$.
+</p><p>
+  Selanjutnya, <em>grader</em> memanggil <code>toggle(1)</code>.
+  Jalan $4$ yang menghubungkan desa $1$ dan desa $2$ kini dalam pengawasan ketat.
+</p><p>
+  Misalkan <em>grader</em> kemudian memanggil <code>query(1, 2)</code>.
+  Tidak terdapat cara untuk anggota $1$ mengirimkan perintah anggota $2$.
+  Oleh karena itu, Anda harus mengembalikan $-1$.
+</p><p>
+  Misalkan <em>grader</em> kemudian memanggil <code>query(0, 1)</code>.
+  Karena anggota $0$ dan anggota $1$ tinggal di desa yang sama, tidak ada jalan yang digunakan.
+  Oleh karena itu, Anda harus mengembalikan $0$.
+</p><p>
+  Selanjutnya, <em>grader</em> memanggil <code>toggle(1)</code> dan <code>toggle(4)</code>.
+  Jalan $1$ dan jalan $4$ kini tidak dalam pengawasan ketat.
+</p><p>
+  Misalkan <em>grader</em> kemudian memanggil <code>query(0, 3)</code>.
+  Dapat ditunjukkan bahwa perintah dapat dikirimkan ke anggota $1$, $2$, lalu $3$ dalam $0$, $2$, dan $2$ unit waktu berturut-turut dengan total waktu $4$ unit.
+  Oleh karena itu, Anda harus mengembalikan $4$.
+</p>
+
+<h3>Contoh <em>Grader</em></h3>
+
+<p>
+  Contoh <em>grader</em> membaca masukan dalam format berikut:
+</p><ul>
+  <li> baris $1$: $N \;\; M \;\; Q$ </li>
+  <li> baris $2$: $A[0] \;\; A[1] \;\; \ldots \;\; A[N - 1]$ </li>
+  <li> baris $3 + j$ ($0 \le j \le Q - 1$):
+    <ul>
+      <li>$0 \;\; R$ jika kejadian ke-$j$ adalah <code>toggle(R)</code></li>
+      <li>$1 \;\; S \;\; T$ jika kejadian ke-$j$ adalah <code>query(S, T)</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+  Contoh <em>grader</em> mencetak jawaban Anda dalam format berikut:
+</p><ul>
+  <li> baris $j$ ($j \ge 1$): nilai yang dikembalikan panggilan ke-$j$ ke <code>query</code>. </li>
+</ul>
